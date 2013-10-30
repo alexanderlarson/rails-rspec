@@ -4,12 +4,18 @@ class Post < ActiveRecord::Base
   scope :recent, order: "created_at DESC", limit: 5
 
   before_save :titleize_title
+  after_save :make_slug
 
   validates_presence_of :title, :content
+
+  def make_slug
+  	self.slug = title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
+  end
 
   private
 
   def titleize_title
     self.title = title.titleize
   end
+
 end

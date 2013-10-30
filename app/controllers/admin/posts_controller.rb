@@ -1,4 +1,6 @@
 class Admin::PostsController < ApplicationController
+  http_basic_authenticate_with name: "alex", password: "123"
+
   def index
     @posts = Post.all
   end
@@ -9,7 +11,7 @@ class Admin::PostsController < ApplicationController
 
   def create
     @post = Post.new(params[:post])
-
+  
     if @post.save
       flash[:notice] = "Post was successfully saved."
       redirect_to admin_post_url(@post)
